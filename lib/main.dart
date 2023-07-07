@@ -16,6 +16,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.black,
+              width: 2,
+            ),
+          ),
+        )
       ),
       home: const HomeScreen(),
     );
