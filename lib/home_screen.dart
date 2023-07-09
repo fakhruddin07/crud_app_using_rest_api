@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Product> products = [];
+  bool inProgress = false;
 
   @override
   void initState() {
@@ -22,6 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getProducts() async {
+    inProgress = true;
+    if(mounted) {
+      setState(() {});
+    }
+
     Response response =
         await get(Uri.parse("https://crud.teamrabbil.com/api/v1/ReadProduct"));
 
@@ -31,9 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
       for (var e in decodedResponse["data"]) {
         products.add(Product.toJson(e));
       }
-      if(mounted) {
-        setState(() {});
-      }
+    }
+    inProgress = false;
+    if(mounted) {
+      setState(() {});
     }
   }
 
@@ -55,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: const Icon(Icons.add),
       ),
-      body: ListView.separated(
+      body: inProgress ? const Center(child: CircularProgressIndicator(),) : ListView.separated(
         itemCount: products.length,
         separatorBuilder: (BuildContext context, int index) {
           return const Divider();
